@@ -6,6 +6,11 @@
   <includeDependencies package="." />
   <five:registerPackage package="." initialize=".initialize" />
 
+  <include package=".portlet"/>
+
   <utility factory=".sessionmanager.SessionManager"/>
+  <utility factory=".oxutility.OXUtility"/>
+
+  <include package="." file="profiles.zcml"/>
 
 </configure>

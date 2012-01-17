@@ -11,3 +11,6 @@ class IOpenXChangeHelper(
 
 class ISessionManager(Interface):
     pass
+
+class IOXUtility(Interface):
+    pass

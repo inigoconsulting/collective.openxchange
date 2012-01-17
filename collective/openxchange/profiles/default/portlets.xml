@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<portlets xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+
+    <portlet
+        addview="collective.openxchange.latestmail"
+        title="Latest Mail"
+        description="This portlet displays recent mails"/>
+
+</portlets>

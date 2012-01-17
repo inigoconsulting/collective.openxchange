@@ -1,22 +1,31 @@
 from zope.interface import implements
 from collective.openxchange.interfaces import ISessionManager
+from zope.globalrequest import getRequest
 
-_sessions = {}
-_cookies = {}
+import pprint
+import json
 
 class SessionManager(object):
-    """ Memory based cookie storage """
 
     implements(ISessionManager)
 
-    def setSessionData(self, user, sessiondata, cookies):
-        _sessions[user] = sessiondata,
-        _cookies[user] = cookies
+    def setSessionData(self, sessiondata, cookies):
+        request = getRequest()
 
-    def getSession(self, user):
-        _sessions.setdefault(user, {})
-        return _sessions[user].get('session', None)
+        sessiondata = json.dumps(sessiondata)
+        cookies = json.dumps(cookies)
+        request.RESPONSE.setCookie('openxchange-session', sessiondata)
+        request.RESPONSE.setCookie('openxchange-cookies', cookies)
 
-    def getCookies(self, user):
-        _cookies.setdefault(user, {})
-        return _cookies[user]
+    def getSession(self):
+        request = getRequest()
+        value = json.loads(request.get('openxchange-session', "{}"))
+        session = value.get('session', None)
+        if session:
+            session = str(session)
+        return session
+
+    def getCookies(self):
+        request = getRequest()
+        cookies = json.loads(request.get('openxchange-cookies', "{}"))
+        return dict([(str(k), str(v)) for k,v in cookies.items()])

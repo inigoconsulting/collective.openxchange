@@ -1,0 +1,17 @@
+<div>
+   Latest Emails
+   <br/>
+   <ul style="padding-left:15px;font-size:small">
+   <tal:re repeat="mail view/mails">
+   <li style="display:block">
+      <div>
+         <br/>
+         <span tal:content="mail/from"></span><br/>
+         <a href="#" tal:content="mail/subject"></a><br/>
+         <span tal:content="python:mail['datetime'].isoformat()"/>
+         <br/>
+      </div>
+   </li>
+   </tal:re>
+   </ul>
+</div>

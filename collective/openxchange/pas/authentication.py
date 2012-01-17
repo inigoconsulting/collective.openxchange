@@ -1,7 +1,7 @@
 from AccessControl.SecurityInfo import ClassSecurityInfo
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 import requests
-from collective.openxchange.interfaces import ISessionManager
+from collective.openxchange.interfaces import ISessionManager, IOXUtility
 from zope.component import getUtility
 import json
 
@@ -24,13 +24,10 @@ class AuthenticationPlugin(BasePlugin):
         login = credentials.get('login')
         password = credentials.get('password')
 
-        r = requests.post('http://192.168.122.214/ajax/login?action=login', {
-            'name': login,
-            'password': password
-        })
+        if not login:
+           return 
 
-        data = json.loads(r.content)
-        if data.get('session'):
-            sm = getUtility(ISessionManager)
-            sm.setSessionData(login, data, r.cookies)
+        oxutil = getUtility(IOXUtility)
+
+        if oxutil.authenticate(login, password):
             return (login, login)
