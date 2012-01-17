@@ -24,6 +24,7 @@ setup(name='collective.openxchange',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'requests'
           # -*- Extra requirements: -*-
       ],
       entry_points="""
